@@ -11,7 +11,9 @@ export default defineComponent({
 
 <template>
   <BaseNavbar />
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <main class="flex-1">
+    <img alt="Vue logo" src="./assets/logo.png" />
+  </main>
 </template>
 
 <style>
