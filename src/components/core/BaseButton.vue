@@ -42,9 +42,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@import url(./../index.css);
+@import url(./../../index.css);
 .button {
-    @apply font-normal text-sm rounded-xl cursor-pointer select-none text-center justify-center inline-flex items-center space-x-2.5 py-2.5 px-3.5 !important;
+    @apply font-normal text-sm rounded-lg cursor-pointer select-none text-center justify-center inline-flex items-center space-x-2.5 py-2.5 px-3.5 !important;
 }
 .button--regular {
     @apply text-white bg-blue-600 focus:ring focus:ring-blue-200 transition duration-300 ease-in !important;

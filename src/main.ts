@@ -5,7 +5,7 @@ import './index.css'
 const app = createApp(App)
 
 //global component registration
-const components = import.meta.globEager('./components/*.vue')
+const components = import.meta.globEager('./components/core/*.vue')
 Object.entries(components).forEach(([path, definition]) => {
   // Get name of component, based on filename
   // "./components/Fruits.vue" will become "Fruits"
