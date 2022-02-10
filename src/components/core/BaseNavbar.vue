@@ -29,7 +29,7 @@ export default defineComponent({
 <style scoped>
 @import url(./../../index.css);
 .navbar {
-  @apply top-0 right-0 left-0 h-16 flex items-center bg-white border-gray-200 px-2 !important;
+  @apply top-0 right-0 left-0 h-16 flex items-center bg-white border-gray-200 px-2 sticky z-10 !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 </style>

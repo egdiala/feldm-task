@@ -195,6 +195,11 @@
     "@vue/compiler-dom" "3.2.30"
     "@vue/shared" "3.2.30"
 
+"@vue/devtools-api@^6.0.0-beta.18":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.5.tgz#7e35cfee4f44ada65cde0d19341fbaeb0ae353f4"
+  integrity sha512-2nM84dzo3B63pKgxwoArlT1d/yqSL0y2lG2GiyyGhwpyPTwkfIuJHlCNbputCoSCNnT6MMfenK1g7nv7Mea19A==
+
 "@vue/reactivity-transform@3.2.30":
   version "3.2.30"
   resolved "https://registry.yarnpkg.com/@vue/reactivity-transform/-/reactivity-transform-3.2.30.tgz#2006e9f4645777a481b78ae77fc486159afa8480"
@@ -1442,6 +1447,13 @@ vscode-vue-languageservice@0.29.8:
     vscode-languageserver-textdocument "^1.0.1"
     vscode-pug-languageservice "0.29.8"
     vscode-typescript-languageservice "0.29.8"
+
+vue-router@4:
+  version "4.0.12"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.12.tgz#8dc792cddf5bb1abcc3908f9064136de7e13c460"
+  integrity sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg==
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.18"
 
 vue-tsc@^0.29.8:
   version "0.29.8"
