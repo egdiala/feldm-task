@@ -1,18 +1,31 @@
 <template>
-    <button v-bind="$attrs" type="button" :class="classes">
+    <button v-if="!to" v-bind="$attrs" type="button" :class="classes" :disabled="disabled">
+        <BaseIcon :icon="icon" />
         <span v-if="label">{{ label }}</span>
     </button>
+    <a v-if="to && isExternalLink" v-bind="$attrs" :href="to" target="_blank" :class="classes">
+        <BaseIcon :icon="icon" />
+        <span v-if="label">{{ label }}</span>
+    </a>
+    <router-link v-if="to && !isExternalLink" v-bind="$attrs" :to="to" type="button" :class="classes">
+        <BaseIcon :icon="icon" />
+        <span v-if="label">{{ label }}</span>
+    </router-link>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, reactive } from 'vue'
 
 export default defineComponent({
-    name: 'BaseButton',
+    name: "BaseButton",
     props: {
         label: {
             type: String,
-            default: ''
+            default: ""
+        },
+        icon: {
+            type: String,
+            default: ""
         },
         regular: {
             type: Boolean,
@@ -26,17 +39,30 @@ export default defineComponent({
             type: Boolean,
             default: false
         },
+        to: {
+            type: String,
+            default: ""
+        },
+        disabled: {
+            type: Boolean,
+            required: false
+        },
     },
-    setup (props) {
+    setup(props) {
         props = reactive(props);
+        const isExternalLink = computed(() => {
+            return props.to.startsWith("http");
+        });
         return {
             classes: computed(() => ({
-                'button': true,
+                "button": true,
                 "button--regular": props.regular,
                 "button--outlined": props.outlined,
-                "button--text": props.text
-            }))
-        }
+                "button--text": props.text,
+                "button--disabled": props.text
+            })),
+            isExternalLink
+        };
     }
 })
 </script>
@@ -50,9 +76,15 @@ export default defineComponent({
     @apply text-white bg-blue-600 focus:ring focus:ring-blue-200 transition duration-300 ease-in !important;
 }
 .button--outlined {
-    @apply text-gray-600 bg-transparent border border-gray-600 focus:ring focus:ring-gray-200 transition duration-300 ease-in !important;
+    @apply text-gray-600 bg-transparent border border-gray-300 hover:bg-gray-100 transition duration-300 ease-in !important;
 }
 .button--text {
     @apply text-gray-600 hover:text-gray-900 bg-transparent focus:bg-gray-100 transition duration-300 ease-in !important;
+}
+[type="button"]:disabled.button--outlined {
+    @apply text-gray-300 bg-gray-200 border border-gray-300 hover:bg-gray-200 cursor-not-allowed !important;
+}
+.router-link-exact-active {
+    @apply bg-gray-100 !important;
 }
 </style>

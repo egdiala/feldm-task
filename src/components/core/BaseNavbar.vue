@@ -4,11 +4,11 @@
       <div class="flex items-center justify-between">
         <div class="text-2xl text-gray-900 font-medium">FeldM</div>
         <div class="flex items-center space-x-2">
-          <BaseButton label="Home" text></BaseButton>
-          <BaseButton label="API Health" text></BaseButton>
+          <BaseButton label="Home" to="/" text />
+          <BaseButton label="API Health" to="/health" text />
         </div>
-        <div class="h-10 w-10 rounded-full border-2 border-indigo-200 overflow-clip">
-          <img src="https://avatars.githubusercontent.com/u/46764458?s=48&v=4">
+        <div class="h-10 w-10 rounded-full border-2 border-blue-200 overflow-clip">
+          <img alt="Diala" src="https://avatars.githubusercontent.com/u/46764458?s=48&v=4">
         </div>
       </div>
     </div>
