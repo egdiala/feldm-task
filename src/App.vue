@@ -11,7 +11,7 @@ export default defineComponent({
 
 <template>
   <BaseNavbar />
-  <main class="flex-1">
+  <main class="flex-1 py-8">
     <router-view></router-view>
   </main>
 </template>
@@ -21,7 +21,5 @@ export default defineComponent({
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 </style>

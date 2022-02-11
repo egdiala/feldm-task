@@ -1,6 +1,6 @@
 <template>
 <section>
-    <div class="container mx-auto py-8 space-y-6">
+    <div class="container mx-auto space-y-6">
         <div class="px-4 lg:px-0 flex items-center justify-between">
             <h1 class="text-2xl font-semibold text-gray-800">API Data</h1>
             <BaseButton label="Random" icon="heroicons-outline:refresh" regular @click="getRandomEntry" />
@@ -46,7 +46,7 @@
                 <lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_pidikbny.json"  background="transparent"  speed="1"  style="width: 100%; height: 300px;"  loop autoplay></lottie-player>
             </div>
         </div>
-        <div class="px-4 lg:px-0 lg:hidden flex flex-col space-y-2">
+        <div v-if="tableData.length > 0 && !loading && search.trim() == ''" class="px-4 lg:px-0 lg:hidden flex flex-col space-y-2">
             <hr class="bg-gray-200">
             <div class="flex items-center justify-between">
                 <BaseButton icon="feather:arrow-left" text @click="prev" :disabled="page === 1"/>
@@ -70,7 +70,7 @@ export default defineComponent({
         const categories = ref([]);
         const category = ref('')
         // complete data gotten from /entries endpoint
-        const paginatedEntries = ref([]);
+        const paginatedEntries = ref();
         // used to check current index of paginated data
         const page = ref(1);
         const search = ref("");
