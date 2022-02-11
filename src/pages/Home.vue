@@ -5,11 +5,12 @@
             <h1 class="text-2xl font-semibold text-gray-800">API Data</h1>
             <BaseButton label="Random" icon="heroicons-outline:refresh" regular @click="getRandomEntry" />
         </div>
-        <div class="flex items-end space-x-4">
-            <form class="grow">
-                <BaseInput placeholder="Search title..." v-model="search" label="Title" icon="feather:search" iconPosition="left" @keyup="filterEntry" />
-            </form>
-            <BaseSelect label="Category" :options="categories"></BaseSelect>
+        <div class="flex lg:flex-row flex-col items-center lg:space-x-4 lg:space-y-0 gap-4">
+            <BaseSelect label="Category" :options="categories" class="lg:w-3/12 w-full lg:order-1 order-2" v-model="category" @change="filterByCategory"></BaseSelect>
+            <BaseInput placeholder="Search title..." v-model="search" class="lg:grow grow-0 w-full lg:w-auto lg:order-2 order-1" label="Title" icon="feather:search" iconPosition="left" @keyup="filterEntry" />
+        </div>
+        <div v-if="category" class="flex items-center">
+            <BaseChip :label="category" @click="filterByCategory('')"></BaseChip>
         </div>
         <div class="lg:w-full lg:left-auto lg:relative lg:right-auto left-0 right-0 lg:overflow-x-hidden overflow-x-scroll border border-[#EAECF0] lg:rounded-lg rounded-none lg:shadow-none shadow-md">
             <table v-if="tableData.length > 0 && !loading" class="table-auto w-full text-left">
@@ -59,6 +60,7 @@ export default defineComponent({
         const tableData = ref([]);
         const entries = ref();
         const categories = ref([]);
+        const category = ref('')
         // complete data gotten from /entries endpoint
         const paginatedEntries = ref();
         // used to check current index of paginated data
@@ -94,10 +96,18 @@ export default defineComponent({
                 loading.value = false;
             }
         };
+        const filterByCategory = function(item? : string) {
+            if (item == '') {
+                category.value = item
+                getAllEntries();
+            } else {
+                getAllEntries();
+            }
+        }
         // fetch all entries from endpoint
         async function getAllEntries() {
             await getCategories();
-            let url = import.meta.env.VITE_BASE_URL + "/entries";
+            let url = import.meta.env.VITE_BASE_URL + `/entries?category=${category.value}`;
             try {
                 let res = await fetch(url);
                 let data = await res.json();
@@ -153,6 +163,7 @@ export default defineComponent({
         });
         return {
             categories,
+            category,
             tableData,
             getRandomEntry,
             search,
@@ -161,7 +172,8 @@ export default defineComponent({
             prev,
             next,
             loading,
-            filterEntry
+            filterEntry,
+            filterByCategory
         };
     }
 })
