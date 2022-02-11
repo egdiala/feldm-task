@@ -1,15 +1,15 @@
 <template>
 <section>
-    <div class="container mx-auto py-8 px-4 lg:px-0 space-y-6">
-        <div class="flex items-center justify-between">
+    <div class="container mx-auto py-8 space-y-6">
+        <div class="px-4 lg:px-0 flex items-center justify-between">
             <h1 class="text-2xl font-semibold text-gray-800">API Data</h1>
             <BaseButton label="Random" icon="heroicons-outline:refresh" regular @click="getRandomEntry" />
         </div>
-        <div class="flex lg:flex-row flex-col items-center lg:space-x-4 lg:space-y-0 gap-4">
+        <div class="px-4 lg:px-0 flex lg:flex-row flex-col items-center lg:space-x-4 lg:space-y-0 gap-4">
             <BaseSelect label="Category" :options="categories" class="lg:w-3/12 w-full lg:order-1 order-2" v-model="category" @change="filterByCategory"></BaseSelect>
-            <BaseInput placeholder="Search title..." v-model="search" class="lg:grow grow-0 w-full lg:w-auto lg:order-2 order-1" label="Title" icon="feather:search" iconPosition="left" @keyup="filterEntry" />
+            <BaseInput placeholder="Search title..." v-model.lazy="search" class="lg:grow grow-0 w-full lg:w-auto lg:order-2 order-1" label="Title" icon="feather:search" iconPosition="left" @keyup="filterEntry" />
         </div>
-        <div v-if="category" class="flex items-center">
+        <div v-if="category" class="px-4 lg:px-0 flex items-center">
             <BaseChip :label="category" @click="filterByCategory('')"></BaseChip>
         </div>
         <div class="lg:w-full lg:left-auto lg:relative lg:right-auto left-0 right-0 lg:overflow-x-hidden overflow-x-scroll border border-[#EAECF0] lg:rounded-lg rounded-none lg:shadow-none shadow-md">
@@ -46,6 +46,14 @@
                 <lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_pidikbny.json"  background="transparent"  speed="1"  style="width: 100%; height: 300px;"  loop autoplay></lottie-player>
             </div>
         </div>
+        <div class="px-4 lg:px-0 lg:hidden flex flex-col space-y-2">
+            <hr class="bg-gray-200">
+            <div class="flex items-center justify-between">
+                <BaseButton icon="feather:arrow-left" text @click="prev" :disabled="page === 1"/>
+                <span class="text-gray-700 font-medium text-sm">Page {{page}} of {{paginatedEntries.length}}</span>
+                <BaseButton icon="feather:arrow-right" text @click="next" :disabled="page === paginatedEntries?.length"/>
+            </div>
+        </div>
     </div>
 </section>
 </template>
@@ -62,7 +70,7 @@ export default defineComponent({
         const categories = ref([]);
         const category = ref('')
         // complete data gotten from /entries endpoint
-        const paginatedEntries = ref();
+        const paginatedEntries = ref([]);
         // used to check current index of paginated data
         const page = ref(1);
         const search = ref("");
