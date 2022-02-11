@@ -5,9 +5,10 @@
             <h1 class="text-2xl font-semibold text-gray-800">API Data</h1>
             <BaseButton label="Random" icon="heroicons-outline:refresh" regular @click="getRandomEntry" />
         </div>
-        <div class="px-4 lg:px-0 flex lg:flex-row flex-col items-center lg:space-x-4 lg:space-y-0 gap-4">
+        <div class="px-4 lg:px-0 flex lg:flex-row flex-col items-end lg:space-x-4 lg:space-y-0 gap-4">
             <BaseSelect label="Category" :options="categories" class="lg:w-3/12 w-full lg:order-1 order-2" v-model="category" @change="filterByCategory"></BaseSelect>
-            <BaseInput placeholder="Search title..." v-model.lazy="search" class="lg:grow grow-0 w-full lg:w-auto lg:order-2 order-1" label="Title" icon="feather:search" iconPosition="left" @keyup="filterEntry" />
+            <BaseInput placeholder="Search title..." v-model="title" class="lg:grow grow-0 w-full lg:w-auto lg:order-2 order-1" label="Title" icon="feather:search" iconPosition="left" />
+            <BaseButton label="Search" regular class="order-3 w-full lg:w-auto" @click="filterByTitle" />
         </div>
         <div v-if="category" class="px-4 lg:px-0 flex items-center">
             <BaseChip :label="category" @click="filterByCategory('')"></BaseChip>
@@ -35,7 +36,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div v-if="tableData.length > 0 && !loading && search.trim() == ''" class="lg:flex hidden items-center justify-between px-6 pb-4 pt-2.5">
+            <div v-if="tableData.length > 0 && !loading && title.trim() == ''" class="lg:flex hidden items-center justify-between px-6 pb-4 pt-2.5">
                 <div class="flex items-center space-x-3">
                     <BaseButton label="Previous" outlined @click="prev" :disabled="page === 1" />
                     <BaseButton label="Next" outlined @click="next" :disabled="page === paginatedEntries.length" />
@@ -46,7 +47,7 @@
                 <lottie-player src="https://assets3.lottiefiles.com/private_files/lf30_pidikbny.json"  background="transparent"  speed="1"  style="width: 100%; height: 300px;"  loop autoplay></lottie-player>
             </div>
         </div>
-        <div v-if="tableData.length > 0 && !loading && search.trim() == ''" class="px-4 lg:px-0 lg:hidden flex flex-col space-y-2">
+        <div v-if="tableData.length > 0 && !loading && title.trim() == ''" class="px-4 lg:px-0 lg:hidden flex flex-col space-y-2">
             <hr class="bg-gray-200">
             <div class="flex items-center justify-between">
                 <BaseButton icon="feather:arrow-left" text @click="prev" :disabled="page === 1"/>
@@ -69,11 +70,11 @@ export default defineComponent({
         const entries = ref();
         const categories = ref([]);
         const category = ref('')
+        const title = ref('')
         // complete data gotten from /entries endpoint
         const paginatedEntries = ref();
         // used to check current index of paginated data
         const page = ref(1);
-        const search = ref("");
         const loading = ref(false);
         // fetch random entry from endpoint
         async function getRandomEntry() {
@@ -112,10 +113,15 @@ export default defineComponent({
                 getAllEntries();
             }
         }
+        const filterByTitle = function() {
+            if (title.value !== '') {
+                getAllEntries();
+            }
+        }
         // fetch all entries from endpoint
         async function getAllEntries() {
             await getCategories();
-            let url = import.meta.env.VITE_BASE_URL + `/entries?category=${category.value}`;
+            let url = import.meta.env.VITE_BASE_URL + `/entries?category=${category.value}&title=${title.value}`;
             try {
                 let res = await fetch(url);
                 let data = await res.json();
@@ -155,32 +161,21 @@ export default defineComponent({
                 generateEntries();
             }
         };
-        // live search filter
-        const filterEntry = function () {
-            if (search.value.trim() !== "") {
-                const result = entries.value.filter((entry: object) => entry.API.toLowerCase().match(search.value.toLowerCase()));
-                tableData.value = result;
-            }
-            else {
-                paginatedEntries.value = paginate(entries.value, 100);
-                generateEntries();
-            }
-        };
         onMounted(() => {
             getAllEntries();
         });
         return {
             categories,
             category,
+            title,
+            filterByTitle,
             tableData,
             getRandomEntry,
-            search,
             paginatedEntries,
             page,
             prev,
             next,
             loading,
-            filterEntry,
             filterByCategory
         };
     }
