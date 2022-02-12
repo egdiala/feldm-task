@@ -2,8 +2,8 @@
     <div v-if="loading" class="flex w-full">
         <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_w6xlywkv.json"  background="transparent"  speed="1"  style="width: 100%; height: 300px;"  loop  autoplay></lottie-player>
     </div>
-    <div v-else class="flex w-full">
-        <span v-if="alive" class="text-gray-800 text-3xl underline decoration-green-500 mx-auto">Looks good!</span>
+    <div v-else class="flex justify-center w-full">
+        <span v-if="alive" class="text-gray-800 text-3xl underline decoration-green-500">Looks good!</span>
         <span v-else class="text-gray-800 text-3xl underline decoration-red-500">Not so good!</span>
     </div>
 </template>

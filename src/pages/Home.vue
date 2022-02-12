@@ -36,6 +36,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div v-if="tableData.length < 1 && !loading" class="flex items-center justify-center px-6 pb-4 pt-2.5">
+                <span class="text-gray-700 font-medium text-sm">No entry found</span>
+            </div>
             <div v-if="tableData.length > 0 && !loading && title.trim() == ''" class="lg:flex hidden items-center justify-between px-6 pb-4 pt-2.5">
                 <div class="flex items-center space-x-3">
                     <BaseButton label="Previous" outlined @click="prev" :disabled="page === 1" />
@@ -125,9 +128,13 @@ export default defineComponent({
             try {
                 let res = await fetch(url);
                 let data = await res.json();
-                entries.value = data.entries;
-                paginatedEntries.value = paginate(data.entries, 100);
-                generateEntries();
+                if (data.entries != null) {
+                    entries.value = data.entries;
+                    paginatedEntries.value = paginate(data.entries, 100);
+                    generateEntries();
+                } else {
+                    tableData.value = []
+                }
                 loading.value = false;
             }
             catch (error) {
